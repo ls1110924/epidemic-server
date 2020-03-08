@@ -2,6 +2,9 @@ package com.example.epidemic.service;
 
 import com.example.epidemic.model.Report;
 
+/**
+ * 报表服务
+ */
 public interface IReportService {
 
     /**

@@ -1,7 +1,6 @@
 package com.example.epidemic.controller;
 
 import com.example.epidemic.model.*;
-import com.example.epidemic.service.IAreaService;
 import com.example.epidemic.service.IReportService;
 import com.example.epidemic.service.ISafenessInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,35 +8,15 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @Scope("prototype")
 @RequestMapping("epidemic")
 public class EpidemicController {
 
     @Autowired
-    private IAreaService areaService;
-    @Autowired
     private ISafenessInfoService safenessInfoService;
     @Autowired
     private IReportService reportService;
-
-    /**
-     * 测试
-     */
-    @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
-    @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET}, value = "test")
-    public Response<List<Area>> test() {
-        List<Area> area = areaService.findChildAreaByParentAreaId("31");
-
-        Response<List<Area>> result = new Response<List<Area>>();
-        result.setCode(0);
-        result.setMessage("成功");
-        result.setData(area);
-        return result;
-    }
 
     /**
      * 提交健康上报数据
@@ -58,12 +37,11 @@ public class EpidemicController {
             result.setMessage(e.getMessage());
             result.setData(false);
         }
-
         return result;
     }
 
     /**
-     * 提交健康上报数据
+     * 查询指定区域的报表数据
      */
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
@@ -80,7 +58,6 @@ public class EpidemicController {
             result.setCode(1);
             result.setMessage(e.getMessage());
         }
-
         return result;
     }
 

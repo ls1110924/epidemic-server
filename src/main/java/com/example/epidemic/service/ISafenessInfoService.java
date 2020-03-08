@@ -5,6 +5,9 @@ import com.example.epidemic.model.SafenessInfoQuery;
 
 import java.util.List;
 
+/**
+ * 健康信息表数据操作服务
+ */
 public interface ISafenessInfoService {
 
     /**

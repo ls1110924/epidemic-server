@@ -4,6 +4,9 @@ import com.example.epidemic.model.Area;
 
 import java.util.List;
 
+/**
+ * 区域表数据操作服务
+ */
 public interface IAreaService {
 
     /**
