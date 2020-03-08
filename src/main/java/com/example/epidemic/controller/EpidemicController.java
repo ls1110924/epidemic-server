@@ -1,5 +1,7 @@
 package com.example.epidemic.controller;
 
+import com.example.epidemic.enumeration.ResultType;
+import com.example.epidemic.exception.BizException;
 import com.example.epidemic.model.*;
 import com.example.epidemic.service.IReportService;
 import com.example.epidemic.service.ISafenessInfoService;
@@ -33,7 +35,7 @@ public class EpidemicController {
             result.setMessage("成功");
             result.setData(true);
         } catch (Exception e) {
-            result.setCode(1);
+            result.setCode(parseErrorCode(e));
             result.setMessage(e.getMessage());
             result.setData(false);
         }
@@ -55,10 +57,17 @@ public class EpidemicController {
             result.setMessage("成功");
             result.setData(report);
         } catch (Exception e) {
-            result.setCode(1);
+            result.setCode(parseErrorCode(e));
             result.setMessage(e.getMessage());
         }
         return result;
+    }
+
+    private static int parseErrorCode(Exception e) {
+        if (e instanceof BizException) {
+            return ((BizException) e).getCode();
+        }
+        return ResultType.OTHER.type;
     }
 
 }

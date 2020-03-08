@@ -1,6 +1,8 @@
 package com.example.epidemic.service.impl;
 
 import com.example.epidemic.enumeration.AreaType;
+import com.example.epidemic.enumeration.ResultType;
+import com.example.epidemic.exception.BizException;
 import com.example.epidemic.model.Area;
 import com.example.epidemic.model.Report;
 import com.example.epidemic.model.SafenessInfo;
@@ -9,6 +11,7 @@ import com.example.epidemic.service.IReportService;
 import com.example.epidemic.service.ISafenessInfoService;
 import com.example.epidemic.utils.CollectionUtils;
 import com.example.epidemic.utils.Constants;
+import com.example.epidemic.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +35,9 @@ public class ReportServiceImpl implements IReportService {
     }
 
     public Report generateReport(String areaId) {
+        if (StringUtils.isEmpty(areaId)) {
+            throw new BizException(ResultType.ILLEGAL_PARAMETER.type, "查询区域Id不得为空");
+        }
 
         // 是否是最顶层的国家节点
         final boolean isNationArea = Constants.NATION_AREA_ID.equals(areaId);
