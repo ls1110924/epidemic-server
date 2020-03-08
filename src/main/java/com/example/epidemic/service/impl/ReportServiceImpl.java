@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service("reportService")
 public class ReportServiceImpl implements IReportService {
@@ -27,6 +28,16 @@ public class ReportServiceImpl implements IReportService {
 
     private final Report emptyReport;
 
+    // 内存缓存，将查询数据缓存一分钟，以提高并发性能
+    private final Map<String, ReportCacheModel> reportCacheMap = new ConcurrentHashMap<String, ReportCacheModel>();
+
+    private static class ReportCacheModel {
+        // 缓存数据
+        private Report report;
+        // 最大缓存时间
+        private long maxValidMs;
+    }
+
     public ReportServiceImpl() {
         emptyReport = new Report();
         emptyReport.setxAxis(Collections.<String>emptyList());
@@ -37,6 +48,12 @@ public class ReportServiceImpl implements IReportService {
     public Report generateReport(String areaId) {
         if (StringUtils.isEmpty(areaId)) {
             throw new BizException(ResultType.ILLEGAL_PARAMETER.type, "查询区域Id不得为空");
+        }
+
+        Report reportCache = getReportCache(areaId);
+        if (reportCache != null) {
+            // 命中缓存
+            return reportCache;
         }
 
         // 是否是最顶层的国家节点
@@ -93,11 +110,15 @@ public class ReportServiceImpl implements IReportService {
             abnormalList.add(normalNum == null ? 0 : normalNum.abnormal);
         }
 
-        Report report = new Report();
-        report.setxAxis(areaNameList);
-        report.setNormal(normalList);
-        report.setAbnormal(abnormalList);
-        return report;
+        Report reportResult = new Report();
+        reportResult.setxAxis(areaNameList);
+        reportResult.setNormal(normalList);
+        reportResult.setAbnormal(abnormalList);
+
+        // 存储作为缓存
+        putReportCache(areaId, reportResult);
+
+        return reportResult;
     }
 
     private Map<String, Area> convertArea(List<Area> areas) {
@@ -139,6 +160,22 @@ public class ReportServiceImpl implements IReportService {
             default:
                 throw new IllegalStateException("illegal areaType");
         }
+    }
+
+    private Report getReportCache(String areaId) {
+        ReportCacheModel reportCacheModel = reportCacheMap.get(areaId);
+        if (reportCacheModel != null && reportCacheModel.maxValidMs >= System.currentTimeMillis()) {
+            // 缓存不为空且在有效期内，则返回
+            return reportCacheModel.report;
+        }
+        return null;
+    }
+
+    private void putReportCache(String areaId, Report report) {
+        ReportCacheModel reportCacheModel = new ReportCacheModel();
+        reportCacheModel.report = report;
+        reportCacheModel.maxValidMs = System.currentTimeMillis() + Constants.MAX_CACHE_VALID;
+        reportCacheMap.put(areaId, reportCacheModel);
     }
 
     private static class NormalNum {

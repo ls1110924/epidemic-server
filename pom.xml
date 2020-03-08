@@ -108,6 +108,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--  限流  -->
+        <dependency>
+            <groupId>io.github.forezp</groupId>
+            <artifactId>distributed-limit-core</artifactId>
+            <version>1.0.4</version>
+        </dependency>
+
     </dependencies>
 
     <build>

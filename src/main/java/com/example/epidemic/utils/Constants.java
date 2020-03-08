@@ -12,4 +12,7 @@ public class Constants {
     public static final float MIN_TEMPER = 35f;
     public static final float MAX_TEMPER = 42f;
 
+    // 缓存最大有效时长，即1分钟
+    public static final long MAX_CACHE_VALID = 60 * 1000;
+
 }
