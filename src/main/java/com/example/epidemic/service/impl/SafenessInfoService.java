@@ -45,4 +45,8 @@ public class SafenessInfoService implements ISafenessInfoService {
     public List<SafenessInfo> findAllByPrefixAreaId(String areaId) {
         return safenessInfoDao.findAllByPrefixAreaId(areaId);
     }
+
+    public List<SafenessInfo> findAllByCountyAreaId(String countyAreaId) {
+        return safenessInfoDao.findAllByCountyAreaId(countyAreaId);
+    }
 }

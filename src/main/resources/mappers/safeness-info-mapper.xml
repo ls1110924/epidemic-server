@@ -52,7 +52,14 @@
     <!-- 查询指定区域前缀的健康信息记录 -->
     <select id="findAllByPrefixAreaId" resultMap="safenessInfoResultMap">
         <![CDATA[
-            SELECT * FROM `safeness_info` WHERE `county_area_id` LIKE `#{areaId}%`
+            SELECT * FROM `safeness_info` WHERE `county_area_id` LIKE concat(#{areaId},'%')
+        ]]>
+    </select>
+
+    <!-- 查询指定县域的健康信息记录 -->
+    <select id="findAllByCountyAreaId" resultMap="safenessInfoResultMap">
+        <![CDATA[
+            SELECT * FROM `safeness_info` WHERE `county_area_id` = #{areaId}
         ]]>
     </select>
 

@@ -2,13 +2,13 @@ package com.example.epidemic.controller;
 
 import com.example.epidemic.model.*;
 import com.example.epidemic.service.IAreaService;
+import com.example.epidemic.service.IReportService;
 import com.example.epidemic.service.ISafenessInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -18,9 +18,10 @@ public class EpidemicController {
 
     @Autowired
     private IAreaService areaService;
-
     @Autowired
     private ISafenessInfoService safenessInfoService;
+    @Autowired
+    private IReportService reportService;
 
     /**
      * 测试
@@ -45,9 +46,6 @@ public class EpidemicController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "submit")
     public Response<Boolean> submit(@RequestBody SafenessInfoQuery info) {
-        // TODO
-        System.out.println("################--->" + info.toString());
-
         Response<Boolean> result = new Response<Boolean>();
         try {
             safenessInfoService.insert(info);
@@ -56,7 +54,6 @@ public class EpidemicController {
             result.setMessage("成功");
             result.setData(true);
         } catch (Exception e) {
-            e.printStackTrace();
             result.setCode(1);
             result.setMessage(e.getMessage());
             result.setData(false);
@@ -72,18 +69,18 @@ public class EpidemicController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "query")
     public Response<Report> query(@RequestBody ReportQuery query) {
-        // TODOs
-        System.out.println("################--->" + query.toString());
-
-        Report report = new Report();
-        report.setxAxis(Arrays.asList("周一", "周二", "周三", "周四", "周五", "周六", "周日"));
-        report.setNormal(Arrays.asList(120, 132, 101, 134, 90, 230, 210));
-        report.setAbnormal(Arrays.asList(220, 182, 191, 234, 290, 330, 310));
-
         Response<Report> result = new Response<Report>();
-        result.setCode(0);
-        result.setMessage("成功");
-        result.setData(report);
+        try {
+            Report report = reportService.generateReport(query.getArea());
+
+            result.setCode(0);
+            result.setMessage("成功");
+            result.setData(report);
+        } catch (Exception e) {
+            result.setCode(1);
+            result.setMessage(e.getMessage());
+        }
+
         return result;
     }
 

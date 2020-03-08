@@ -29,4 +29,12 @@ public interface ISafenessInfoService {
      */
     List<SafenessInfo> findAllByPrefixAreaId(String areaId);
 
+    /**
+     * 查询指定县域的健康信息记录
+     *
+     * @param countyAreaId 县Id
+     * @return 健康信息记录列表
+     */
+    List<SafenessInfo> findAllByCountyAreaId(String countyAreaId);
+
 }
