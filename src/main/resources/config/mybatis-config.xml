@@ -22,6 +22,7 @@
 
     <typeAliases>
         <typeAlias alias="Record" type="com.example.epidemic.model.Record" />
+        <typeAlias alias="Area" type="com.example.epidemic.model.Area"/>
     </typeAliases>
 
     <plugins>
@@ -47,6 +48,7 @@
 
     <mappers>
         <mapper resource="mappers/record-mapper.xml" />
+        <mapper resource="mappers/area-mapper.xml" />
     </mappers>
 
 </configuration>

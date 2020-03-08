@@ -1,13 +1,14 @@
 package com.example.epidemic.controller;
 
 import com.example.epidemic.model.*;
-import com.example.epidemic.service.IRecordService;
+import com.example.epidemic.service.IAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @Scope("prototype")
@@ -15,7 +16,7 @@ import java.util.Arrays;
 public class EpidemicController {
 
     @Autowired
-    private IRecordService recordService;
+    private IAreaService areaService;
 
     /**
      * 测试
@@ -23,11 +24,13 @@ public class EpidemicController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET}, value = "test")
-    public Response<Boolean> test() {
-        Response<Boolean> result = new Response<Boolean>();
+    public Response<List<Area>> test() {
+        List<Area> area = areaService.findChildAreaByParentAreaId("31");
+
+        Response<List<Area>> result = new Response<List<Area>>();
         result.setCode(0);
         result.setMessage("成功");
-        result.setData(true);
+        result.setData(area);
         return result;
     }
 

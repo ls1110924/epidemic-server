@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.epidemic.dao.IAreaDao">
+
+    <resultMap type="Area" id="areaResultMap">
+        <id property="id" column="id" />
+        <result property="areaId" column="area_id" />
+        <result property="areaName" column="area_name" />
+        <result property="areaType" column="area_type" />
+        <result property="parentAreaId" column="parent_area_id" />
+    </resultMap>
+
+    <!-- 查询指定id的商家 -->
+    <select id="findByAreaId" resultMap="areaResultMap">
+        <![CDATA[
+            SELECT * FROM `area` WHERE `area_id` = #{areaId}
+        ]]>
+    </select>
+
+    <!-- 查询所有商家 -->
+    <select id="findChildAreaByParentAreaId" resultMap="areaResultMap">
+        <![CDATA[
+            SELECT * FROM `area` WHERE `parent_area_id` = #{parentAreaId}
+        ]]>
+    </select>
+
+</mapper>
