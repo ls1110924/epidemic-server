@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SafenessInfo {
 
+    @JsonProperty("id")
+    private int id;
+
     @JsonProperty("name")
     private String name;
 
@@ -13,11 +16,28 @@ public class SafenessInfo {
     @JsonProperty("phone")
     private String phone;
 
-    @JsonProperty("area")
-    private String area;
+    @JsonProperty("provinceAreaId")
+    private String provinceAreaId;
+
+    @JsonProperty("cityAreaId")
+    private String cityAreaId;
+
+    @JsonProperty("countyAreaId")
+    private String countyAreaId;
 
     @JsonProperty("temperature")
-    private String temperature;
+    private float temperature;
+
+    @JsonProperty("createdAt")
+    private long createdAt;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -43,30 +63,58 @@ public class SafenessInfo {
         this.phone = phone;
     }
 
-    public String getArea() {
-        return area;
+    public String getProvinceAreaId() {
+        return provinceAreaId;
     }
 
-    public void setArea(String area) {
-        this.area = area;
+    public void setProvinceAreaId(String provinceAreaId) {
+        this.provinceAreaId = provinceAreaId;
     }
 
-    public String getTemperature() {
+    public String getCityAreaId() {
+        return cityAreaId;
+    }
+
+    public void setCityAreaId(String cityAreaId) {
+        this.cityAreaId = cityAreaId;
+    }
+
+    public String getCountyAreaId() {
+        return countyAreaId;
+    }
+
+    public void setCountyAreaId(String countyAreaId) {
+        this.countyAreaId = countyAreaId;
+    }
+
+    public float getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(String temperature) {
+    public void setTemperature(float temperature) {
         this.temperature = temperature;
+    }
+
+    public long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
     public String toString() {
         return "SafenessInfo{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", idNum='" + idNum + '\'' +
                 ", phone='" + phone + '\'' +
-                ", area='" + area + '\'' +
-                ", temperature='" + temperature + '\'' +
+                ", provinceAreaId='" + provinceAreaId + '\'' +
+                ", cityAreaId='" + cityAreaId + '\'' +
+                ", countyAreaId='" + countyAreaId + '\'' +
+                ", temperature=" + temperature +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }

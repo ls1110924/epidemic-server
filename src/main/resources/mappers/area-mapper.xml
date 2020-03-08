@@ -12,14 +12,14 @@
         <result property="parentAreaId" column="parent_area_id" />
     </resultMap>
 
-    <!-- 查询指定id的商家 -->
+    <!-- 根据AreaId查区域 -->
     <select id="findByAreaId" resultMap="areaResultMap">
         <![CDATA[
             SELECT * FROM `area` WHERE `area_id` = #{areaId}
         ]]>
     </select>
 
-    <!-- 查询所有商家 -->
+    <!-- 根据AreaId查所有子区域 -->
     <select id="findChildAreaByParentAreaId" resultMap="areaResultMap">
         <![CDATA[
             SELECT * FROM `area` WHERE `parent_area_id` = #{parentAreaId}

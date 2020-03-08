@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.epidemic.dao.ISafenessInfoDao">
+
+    <resultMap type="SafenessInfo" id="safenessInfoResultMap">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="idNum" column="id_num" />
+        <result property="phone" column="phone" />
+        <result property="provinceAreaId" column="province_area_id" />
+        <result property="cityAreaId" column="city_area_id" />
+        <result property="countyAreaId" column="county_area_id" />
+        <result property="temperature" column="temperature" />
+        <result property="createdAt" column="created_at" />
+    </resultMap>
+
+    <!-- 新增健康信息记录 -->
+    <insert id="insert">
+        <![CDATA[
+            INSERT INTO `safeness_info` (
+              `name`,
+              `id_num`,
+              `phone`,
+              `province_area_id`,
+              `city_area_id`,
+              `county_area_id`,
+              `temperature`,
+              `created_at`
+            )
+            VALUES (
+              #{name},
+              #{idNum},
+              #{phone},
+              #{provinceAreaId},
+              #{cityAreaId},
+              #{countyAreaId},
+              #{temperature},
+              #{createdAt}
+            )
+        ]]>
+    </insert>
+
+    <!-- 查询所有健康信息记录 -->
+    <select id="findAll" resultMap="safenessInfoResultMap">
+        <![CDATA[
+            SELECT * FROM `safeness_info`
+        ]]>
+    </select>
+
+    <!-- 查询指定区域前缀的健康信息记录 -->
+    <select id="findAllByPrefixAreaId" resultMap="safenessInfoResultMap">
+        <![CDATA[
+            SELECT * FROM `safeness_info` WHERE `county_area_id` LIKE `#{areaId}%`
+        ]]>
+    </select>
+
+</mapper>

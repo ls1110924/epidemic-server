@@ -23,6 +23,7 @@
     <typeAliases>
         <typeAlias alias="Record" type="com.example.epidemic.model.Record" />
         <typeAlias alias="Area" type="com.example.epidemic.model.Area"/>
+        <typeAlias alias="SafenessInfo" type="com.example.epidemic.model.SafenessInfo"/>
     </typeAliases>
 
     <plugins>
@@ -49,6 +50,7 @@
     <mappers>
         <mapper resource="mappers/record-mapper.xml" />
         <mapper resource="mappers/area-mapper.xml" />
+        <mapper resource="mappers/safeness-info-mapper.xml" />
     </mappers>
 
 </configuration>
