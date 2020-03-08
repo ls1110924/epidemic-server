@@ -13,7 +13,7 @@
 
     <!-- 定义spring版本号属性 -->
     <properties>
-        <spring.version>4.2.4.RELEASE</spring.version>
+        <spring.version>5.2.4.RELEASE</spring.version>
     </properties>
 
     <dependencies>
